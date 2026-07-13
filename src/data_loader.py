@@ -1,33 +1,47 @@
-import os
+from pathlib import Path
+
+import pandas as pd
 import yfinance as yf
 
-# Create data directory if it doesn't exist
-os.makedirs("data", exist_ok=True)
+from config import RAW_DATA_DIR
 
 # Assets to download
-assets = {
+ASSETS = {
     "gold": "GLD",
     "sp500": "SPY",
     "silver": "SLV",
-    "bitcoin": "BTC-USD"
+    "bitcoin": "BTC-USD",
 }
 
-print("Downloading market data...\n")
 
-for name, ticker in assets.items():
-    print(f"Downloading {name} ({ticker})...")
+def download_data():
+    """Download historical market data from Yahoo Finance."""
 
-    df = yf.download(
-        ticker,
-        start="2015-01-01",
-        end="2026-01-01",
-        auto_adjust=True,
-        progress=False
-    )
+    print("Downloading market data...\n")
 
-    file_path = f"data/{name}.csv"
-    df.to_csv(file_path)
+    for name, ticker in ASSETS.items():
+        print(f"Downloading {name} ({ticker})...")
 
-    print(f"Saved to {file_path}")
+        df = yf.download(
+            ticker,
+            start="2015-01-01",
+            end="2026-01-01",
+            auto_adjust=True,
+            progress=False,
+        )
 
-print("\nAll datasets downloaded successfully!")
+        # Safety check
+        if df is None or df.empty:
+            print(f"Failed to download {ticker}")
+            continue
+
+        file_path = RAW_DATA_DIR / f"{name}.csv"
+        df.to_csv(file_path)
+
+        print(f"Saved to {file_path}")
+
+    print("\nDownload completed.")
+
+
+if __name__ == "__main__":
+    download_data()
