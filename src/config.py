@@ -31,3 +31,8 @@ for directory in [
     MODEL_DIR,
 ]:
     directory.mkdir(parents=True, exist_ok=True)
+
+GOLD_FILE = RAW_DATA_DIR / "gold.csv"
+SILVER_FILE = RAW_DATA_DIR / "silver.csv"
+SP500_FILE = RAW_DATA_DIR / "sp500.csv"
+BITCOIN_FILE = RAW_DATA_DIR / "bitcoin.csv"
