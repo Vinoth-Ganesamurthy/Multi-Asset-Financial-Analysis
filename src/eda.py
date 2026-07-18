@@ -88,10 +88,74 @@ def descriptive_statistics(datasets: dict) -> pd.DataFrame:
     return summary_df
 
 
+def calculate_daily_returns(datasets: dict) -> dict:
+    """
+    Calculate daily percentage returns for each asset.
+    """
+
+    returns = {}
+
+    for asset, df in datasets.items():
+
+        returns_df = df.copy()
+
+        returns_df["Daily Return"] = returns_df["Close"].pct_change()
+
+        # Remove the first row containing NaN
+        returns_df.dropna(inplace=True)
+
+        returns[asset] = returns_df
+
+    return returns
+
+def average_daily_returns(returns: dict) -> None:
+    """
+    Display the average daily return for each asset.
+    """
+
+    print("\n" + "=" * 40)
+    print("AVERAGE DAILY RETURNS")
+    print("=" * 40)
+
+    for asset, df in returns.items():
+
+        avg_return = df["Daily Return"].mean()
+
+        print(f"{asset:<10}: {avg_return:.6f}")
+        
+def volatility_analysis(returns: dict) -> None:
+    """
+    Display the daily volatility (standard deviation)
+    of returns for each asset.
+    """
+
+    print("\n" + "=" * 40)
+    print("DAILY VOLATILITY")
+    print("=" * 40)
+
+    for asset, df in returns.items():
+
+        volatility = df["Daily Return"].std()
+
+        print(f"{asset:<10}: {volatility:.6f}")
+
+
 if __name__ == "__main__":
 
+    # Load datasets
     datasets = load_market_data()
 
+    # Validate datasets
     validate_market_data(datasets)
 
+    # Descriptive statistics
     descriptive_statistics(datasets)
+
+    # Calculate daily returns
+    returns = calculate_daily_returns(datasets)
+
+    # Average daily returns
+    average_daily_returns(returns)
+
+    # Daily volatility
+    volatility_analysis(returns)
