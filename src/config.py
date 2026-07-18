@@ -32,6 +32,7 @@ for directory in [
 ]:
     directory.mkdir(parents=True, exist_ok=True)
 
+# Raw data files
 GOLD_FILE = RAW_DATA_DIR / "gold.csv"
 SILVER_FILE = RAW_DATA_DIR / "silver.csv"
 SP500_FILE = RAW_DATA_DIR / "sp500.csv"

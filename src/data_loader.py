@@ -28,6 +28,7 @@ def download_data():
             end="2026-01-01",
             auto_adjust=True,
             progress=False,
+            multi_level_index=False,
         )
 
         # Safety check
@@ -36,8 +37,8 @@ def download_data():
             continue
 
         file_path = RAW_DATA_DIR / f"{name}.csv"
-        df.to_csv(file_path)
-
+        df.reset_index(inplace=True)
+        df.to_csv(file_path, index=False)
         print(f"Saved to {file_path}")
 
     print("\nDownload completed.")
