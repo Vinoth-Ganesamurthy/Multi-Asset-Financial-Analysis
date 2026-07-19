@@ -94,13 +94,6 @@ Multi-Asset-Financial-Analysis/
 │   ├── raw/
 │   └── processed/
 │
-├── notebooks/
-│   ├── 01_data_collection.ipynb
-│   ├── 02_data_validation.ipynb
-│   ├── 03_exploratory_analysis.ipynb
-│   ├── 04_descriptive_statistics.ipynb
-│   └── 05_financial_metrics.ipynb
-│
 ├── outputs/
 │   ├── charts/
 │   └── tables/
