@@ -122,7 +122,7 @@ def average_daily_returns(returns: dict) -> None:
         avg_return = df["Daily Return"].mean()
 
         print(f"{asset:<10}: {avg_return:.6f}")
-        
+
 def volatility_analysis(returns: dict) -> None:
     """
     Display the daily volatility (standard deviation)
@@ -139,6 +139,25 @@ def volatility_analysis(returns: dict) -> None:
 
         print(f"{asset:<10}: {volatility:.6f}")
 
+def correlation_analysis(returns: dict) -> pd.DataFrame:
+    """
+    Calculate the correlation matrix of daily returns.
+    """
+
+    correlation_df = pd.DataFrame()
+
+    for asset, df in returns.items():
+
+        correlation_df[asset] = df["Daily Return"]
+
+    correlation_matrix = correlation_df.corr()
+
+    print("\n" + "=" * 50)
+    print("CORRELATION MATRIX")
+    print("=" * 50)
+    print(correlation_matrix)
+
+    return correlation_matrix
 
 if __name__ == "__main__":
 
@@ -159,3 +178,6 @@ if __name__ == "__main__":
 
     # Daily volatility
     volatility_analysis(returns)
+
+    # Correlation analysis
+    correlation_analysis(returns)
