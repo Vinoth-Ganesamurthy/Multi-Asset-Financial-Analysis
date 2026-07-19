@@ -8,6 +8,7 @@ Author:
     Vinoth Ganesamurthy
 """
 
+import os
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
@@ -48,9 +49,16 @@ def plot_normalized_prices(datasets: dict) -> None:
 
     for asset, df in datasets.items():
 
-        normalized_price = (df["Close"] / df["Close"].iloc[0]) * 100
+        normalized_price = (
+            df["Close"] / df["Close"].iloc[0]
+        ) * 100
 
-        plt.plot(df.index, normalized_price, linewidth=2, label=asset)
+        plt.plot(
+            df.index,
+            normalized_price,
+            linewidth=2,
+            label=asset,
+        )
 
     plt.title("Normalized Asset Performance (Base = 100)")
     plt.xlabel("Date")
@@ -60,7 +68,17 @@ def plot_normalized_prices(datasets: dict) -> None:
     plt.legend()
 
     plt.tight_layout()
+
+    os.makedirs("outputs/charts", exist_ok=True)
+
+    plt.savefig(
+        "outputs/charts/normalized_asset_performance.png",
+        dpi=300,
+        bbox_inches="tight",
+    )
+
     plt.show()
+    plt.close()
 
 
 def plot_correlation_heatmap(datasets: dict) -> None:
@@ -90,7 +108,18 @@ def plot_correlation_heatmap(datasets: dict) -> None:
     plt.title("Correlation Matrix of Daily Returns")
 
     plt.tight_layout()
+
+    os.makedirs("outputs/charts", exist_ok=True)
+
+    plt.savefig(
+        "outputs/charts/correlation_heatmap.png",
+        dpi=300,
+        bbox_inches="tight",
+    )
+
     plt.show()
+    plt.close()
+
 
 def plot_annual_returns(datasets: dict) -> None:
     """
@@ -119,7 +148,18 @@ def plot_annual_returns(datasets: dict) -> None:
     plt.grid(axis="y", linestyle="--", alpha=0.5)
 
     plt.tight_layout()
+
+    os.makedirs("outputs/charts", exist_ok=True)
+
+    plt.savefig(
+        "outputs/charts/annual_returns.png",
+        dpi=300,
+        bbox_inches="tight",
+    )
+
     plt.show()
+    plt.close()
+
 
 def plot_annual_volatility(datasets: dict) -> None:
     """
@@ -133,7 +173,9 @@ def plot_annual_volatility(datasets: dict) -> None:
 
         daily_returns = df["Close"].pct_change().dropna()
 
-        annual_volatility = daily_returns.std() * np.sqrt(252)
+        annual_volatility = (
+            daily_returns.std() * np.sqrt(252)
+        )
 
         assets.append(asset)
         volatility.append(annual_volatility * 100)
@@ -148,7 +190,18 @@ def plot_annual_volatility(datasets: dict) -> None:
     plt.grid(axis="y", linestyle="--", alpha=0.5)
 
     plt.tight_layout()
+
+    os.makedirs("outputs/charts", exist_ok=True)
+
+    plt.savefig(
+        "outputs/charts/annual_volatility.png",
+        dpi=300,
+        bbox_inches="tight",
+    )
+
     plt.show()
+    plt.close()
+
 
 if __name__ == "__main__":
 

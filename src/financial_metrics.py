@@ -17,6 +17,7 @@ Author:
 
 import pandas as pd
 import numpy as np
+import os
 
 from config import (
     GOLD_FILE,
@@ -215,6 +216,14 @@ def performance_summary(
     print("=" * 90)
     print(formatted_df)
 
+    os.makedirs("outputs/tables", exist_ok=True)
+
+    summary_df.to_csv(
+    "outputs/tables/financial_summary.csv",
+    index=False,
+)
+
+    print("\nFinancial summary saved successfully.")
     return summary_df
 
 if __name__ == "__main__":
