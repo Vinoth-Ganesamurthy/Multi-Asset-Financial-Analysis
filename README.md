@@ -92,13 +92,10 @@ Multi-Asset-Financial-Analysis/
 │
 ├── data/
 │   ├── raw/
-│   └── processed/
 │
 ├── outputs/
 │   ├── charts/
 │   └── tables/
-│
-├── reports/
 │
 ├── src/
 │   ├── config.py
@@ -109,8 +106,6 @@ Multi-Asset-Financial-Analysis/
 │   ├── portfolio_analysis.py
 │   ├── portfolio_visualization.py
 │   └── portfolio_optimization.py
-│
-├── tests/
 │
 ├── requirements.txt
 ├── LICENSE
