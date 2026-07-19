@@ -11,6 +11,7 @@ Author:
 import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
+import numpy as np
 
 from config import (
     GOLD_FILE,
@@ -91,6 +92,63 @@ def plot_correlation_heatmap(datasets: dict) -> None:
     plt.tight_layout()
     plt.show()
 
+def plot_annual_returns(datasets: dict) -> None:
+    """
+    Plot annualized returns for each asset.
+    """
+
+    assets = []
+    annual_returns = []
+
+    for asset, df in datasets.items():
+
+        daily_returns = df["Close"].pct_change().dropna()
+
+        annual_return = daily_returns.mean() * 252
+
+        assets.append(asset)
+        annual_returns.append(annual_return * 100)
+
+    plt.figure(figsize=(8, 5))
+
+    plt.bar(assets, annual_returns)
+
+    plt.title("Annualized Returns by Asset")
+    plt.xlabel("Asset")
+    plt.ylabel("Annual Return (%)")
+    plt.grid(axis="y", linestyle="--", alpha=0.5)
+
+    plt.tight_layout()
+    plt.show()
+
+def plot_annual_volatility(datasets: dict) -> None:
+    """
+    Plot annualized volatility for each asset.
+    """
+
+    assets = []
+    volatility = []
+
+    for asset, df in datasets.items():
+
+        daily_returns = df["Close"].pct_change().dropna()
+
+        annual_volatility = daily_returns.std() * np.sqrt(252)
+
+        assets.append(asset)
+        volatility.append(annual_volatility * 100)
+
+    plt.figure(figsize=(8, 5))
+
+    plt.bar(assets, volatility)
+
+    plt.title("Annualized Volatility by Asset")
+    plt.xlabel("Asset")
+    plt.ylabel("Annual Volatility (%)")
+    plt.grid(axis="y", linestyle="--", alpha=0.5)
+
+    plt.tight_layout()
+    plt.show()
 
 if __name__ == "__main__":
 
@@ -99,3 +157,7 @@ if __name__ == "__main__":
     plot_normalized_prices(datasets)
 
     plot_correlation_heatmap(datasets)
+
+    plot_annual_returns(datasets)
+
+    plot_annual_volatility(datasets)
